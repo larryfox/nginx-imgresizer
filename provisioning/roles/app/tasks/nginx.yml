@@ -1,0 +1,11 @@
+---
+
+- name: ensure images directory created
+  file: path=/var/www/{{ app_name }}/images
+        state=directory
+        owner=nobody
+        group=nogroup
+
+- name: ensure app config in place
+  template: src=etc_nginx_conf.d_imgresizer.conf.j2 dest=/etc/nginx/conf.d/imgresizer.conf
+  notify: restart nginx

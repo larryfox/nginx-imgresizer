@@ -1,0 +1,48 @@
+---
+
+- name: ensure dependencies installed
+  apt: pkg={{ item }} state=present
+  with_items:
+    - dpkg-dev
+    - libgd2-xpm-dev
+
+- name: ensure ppa nginx removed
+  apt_repository: repo='ppa:nginx/stable' state=absent
+
+- name: ensure nginx key added
+  apt_key: url=http://nginx.org/keys/nginx_signing.key state=present
+
+- name: ensure official nginx in apt repos
+  apt_repository: repo='deb http://nginx.org/packages/ubuntu/ precise nginx'
+                  update_cache=yes
+                  state=present
+
+- name: ensure official nginx in apt repos
+  apt_repository: repo='deb-src http://nginx.org/packages/ubuntu/ precise nginx'
+                  update_cache=yes
+                  state=present
+
+# built with image_filter module
+# following http://serverfault.com/questions/227480/installing-optional-nginx-modules-with-apt-get
+- name: copy custom nginx package
+  copy: src=nginx_1.4.4-1~precise_amd64.deb dest=/tmp/nginx_1.4.4-1~precise_amd64.deb
+
+- name: install custom nginx package
+  command: dpkg --install /tmp/nginx_1.4.4-1~precise_amd64.deb
+          creates=/etc/nginx/nginx.conf
+
+- name: ensure default vhosts removed
+  file: path=/etc/nginx/conf.d/{{ item }} state=absent
+  with_items:
+   - default.conf
+   - example_ssl.conf
+  notify:
+    - reload nginx
+
+- name: ensure nginx is configured
+  template: src=etc_nginx_nginx.conf.j2 dest=/etc/nginx/nginx.conf
+  notify:
+    - reload nginx
+
+- name: ensure nginx is running and enabled
+  service: name=nginx state=started enabled=yes

@@ -1,0 +1,7 @@
+---
+
+app_name: imgresizer
+app_url: '{{ app_name }}.com'
+app_folder: '/var/www/{{ app_name }}'
+
+nginx_workers: 2

@@ -1,0 +1,43 @@
+---
+
+- name: ensure apt chache updated
+  apt: update_cache=yes
+
+# - name: ensure safe packages upgraded
+#   apt: upgrade=safe
+
+- name: ensure system encoding is utf-8
+  copy: src=etc_default_locale dest=/etc/default/locale
+        owner=root group=root mode=644
+
+- name: ensure ntp is installed
+  apt: pkg=ntp state=present
+  tags: ntp
+
+- name: ensure ntp is configured
+  template: src=etc_ntp.conf.j2 dest=/etc/ntp.conf
+  notify:
+    - restart ntp
+  tags: ntp
+
+- name: ensure ntp is running and enabled
+  service: name=ntp state=started enabled=yes
+  tags: ntp
+
+- name: ensure prerequisites and nice-to-haves installed
+  apt: pkg={{ item }} state=present
+  with_items:
+    - vim
+    - htop
+    - iftop
+    - iotop
+    - mosh
+    - git
+    - build-essential
+    - python-pycurl
+    - libssl-dev
+    # - apticron
+    # - update-notifier-common
+
+# - name: Apticron email configuration
+#   template: src=apticron.conf.j2 dest=/etc/apticron/apticron.conf

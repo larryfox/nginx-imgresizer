@@ -1,0 +1,5 @@
+provisioning/roles/monitoring
+provisioning/roles/app/files
+.vagrant
+provisioning/hosts
+provisioning/group_vars/do

@@ -1,0 +1,10 @@
+---
+
+- hosts: all
+  sudo: True
+  gather_facts: True
+  roles: # order is important here
+    - common
+    - webserver
+    - app
+    # - monitoring
