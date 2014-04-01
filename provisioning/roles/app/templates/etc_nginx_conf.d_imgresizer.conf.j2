@@ -1,7 +1,3 @@
-# config to enable HSTS(HTTP Strict Transport Security)
-# https://developer.mozilla.org/en-US/docs/Security/HTTP_Strict_Transport_Security
-add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";
-
 # config to don't allow the browser to render the page inside an frame or iframe
 # https://developer.mozilla.org/en-US/docs/HTTP/X-Frame-Options
 add_header X-Frame-Options SAMEORIGIN;
@@ -49,7 +45,6 @@ server {
       set $height $2;
       set $image_uri $3;
 
-      # Use try_files to see if it's on disk, else try to generate it
       error_page 404 = @process;
       log_not_found off;
     }
@@ -58,7 +53,6 @@ server {
       set $width $1;
       set $image_uri $2;
 
-      # Use try_files to see if it's on disk, else try to generate it
       error_page 404 = @process;
       log_not_found off;
     }
