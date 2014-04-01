@@ -4,4 +4,6 @@ app_name: imgresizer
 app_url: '{{ app_name }}.com'
 app_folder: '/var/www/{{ app_name }}'
 
+jpg_quality: 70
+
 nginx_workers: 2

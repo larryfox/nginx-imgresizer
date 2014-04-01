@@ -72,7 +72,7 @@ server {
   location /internal/resize {
     proxy_pass                  $arg_uri;
     image_filter_buffer         10M;
-    image_filter_jpeg_quality   95;
+    image_filter_jpeg_quality   {{ jpg_quality }};
     image_filter                resize $arg_width $arg_height;
     allow 127.0.0.0/8;
     deny all;
