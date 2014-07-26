@@ -1,1 +1,1 @@
-An on the fly image resizer in nginx using [`image_filter`](http://nginx.org/en/docs/http/ngx_http_image_filter_module.html).
+An on the fly image resizer in nginx using the [`image_filter` module](http://nginx.org/en/docs/http/ngx_http_image_filter_module.html). I use it to serve all the images on [my website](http://larryfox.com). The important config bits are in [this file](https://github.com/larryfox/nginx-imgresizer/blob/master/provisioning/roles/app/templates/etc_nginx_conf.d_imgresizer.conf.j2).
